@@ -5,13 +5,9 @@ async def install_package():
     await micropip.install("dash_ag_grid")
 
 asyncio.run(install_package())
-
 from dash import Dash, html, dash_table, dcc, callback, Output, Input
-
 import pandas as pd
-
 import plotly.express as px
-
 import dash_ag_grid as dag
 
 
@@ -25,6 +21,16 @@ app = Dash(__name__)
 # App layout
 app.layout = html.Div([
     html.Div(children='My First App with Data, Graph, and Controls'),
+    html.Hr(),
+dcc.Dropdown(
+    ['New York City', 'Montreal', 'San Francisco'],
+    value= 'Montreal'
+),
+    html.Hr(),
+dcc.Checklist(
+    ['New York City', 'Montréal', 'San Francisco'],
+    ['New York City', 'Montréal']
+),
     html.Hr(),
     dcc.RadioItems(options=['pop', 'lifeExp', 'gdpPercap'], value='lifeExp', id='column-options'),
     dag.AgGrid(
