@@ -1,5 +1,7 @@
 import asyncio
 import micropip
+from plotly.graph_objs import Figure
+
 
 async def install_package():
     await micropip.install("dash_ag_grid")
@@ -20,23 +22,15 @@ app = Dash(__name__)
 
 # App layout
 app.layout = html.Div([
-    html.Div(children='My First App with Data, Graph, and Controls'),
+    html.Div(children='lifeExp', id = 'my-div'),
     html.Hr(),
-dcc.Dropdown(
-    ['New York City', 'Montreal', 'San Francisco'],
-    value= 'Montreal'
-),
-    html.Hr(),
-dcc.Checklist(
-    ['New York City', 'Montréal', 'San Francisco'],
-    ['New York City', 'Montréal']
-),
-    html.Hr(),
-    dcc.RadioItems(options=['pop', 'lifeExp', 'gdpPercap'], value='lifeExp', id='column-options'),
+    # dcc.Dropdown(['NYC', 'MTL', 'SF'], 'NYC', id='demo-dropdown'),
+    dcc.RadioItems(options=['pop', 'lifeExp', 'gdpPercap'], value='lifeExp', id = 'column-options'),
     dag.AgGrid(
         id="grid",
         rowData=df.to_dict("records"),
         columnDefs=[{"field": i} for i in df.columns],
+        dashGridOptions={"rowSelection" : "single"}
     ),
     dcc.Graph(figure=fig, id='graph1')
 ])
@@ -44,11 +38,17 @@ dcc.Checklist(
 # Add controls to build the interaction
 @callback(
     Output(component_id='graph1', component_property='figure'),
-    Input(component_id='column-options', component_property='value')
+    Output(component_id= 'my-div', component_property='children'),
+    Input(component_id='column-options', component_property='value'),
+    Input(component_id = 'grid', component_property = 'selectedRows')
 )
-def update_graph(col_chosen):
+def update_graph(col_chosen, my_row):
+    print(my_row)
+    print(my_row[0]['country'])
+    dff = df[df.country == my_row[0]['country']]
+    print(dff.head())
     fig = px.histogram(df, x='continent', y=col_chosen, histfunc='avg')
-    return fig
+    return fig, col_chosen
 
 
 # Run the app
