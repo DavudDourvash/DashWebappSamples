@@ -37,9 +37,12 @@ app.layout = html.Div([
     Input(component_id='column-options', component_property='value')
 )
 def update_graph(col_chosen):
-    dff = df[df.country.isin(['Albania', 'Romania', 'Iran', 'India', 'Egypt', 'Australia'])]
-    fig = px.histogram(dff, x='continent', y=col_chosen, histfunc='avg',
-                       pattern_shape='country', labels={'country': 'Countries'})
+    # dff = df[df.country.isin(['Albania', 'Romania', 'Iran', 'India', 'Egypt', 'Australia'])]
+    # fig = px.histogram(dff, x='continent', y=col_chosen, histfunc='avg',
+    #                    pattern_shape='country', labels={'country': 'Countries'})
+    fig = px.scatter(df, x='gdpPercap', y='lifeExp', range_x=[10000, 40000], color='continent')
+    fig.update_traces(showlegend=False)
+    fig.update_layout(font_size=22)
     return fig
 
 
