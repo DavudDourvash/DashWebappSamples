@@ -14,7 +14,7 @@ app = Dash(
 app.layout = dbc.Container([
     html.H1("Dash Bootstrap Alerts"),
     dbc.Alert("Hello, Bootstrap!", className="m-5", is_open=True, duration=4000),
-    dbc.Button("Primary", color="primary", className="me-1")
+    dbc.Button("Submit", color="primary", className="me-1 border rounded-pill")
 ])
 
 if __name__ == "__main__":
