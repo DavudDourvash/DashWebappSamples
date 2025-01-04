@@ -8,7 +8,7 @@ from dash import Dash, html
 import dash_bootstrap_components as dbc
 
 app = Dash(
-    external_stylesheets=[dbc.themes.CYBORG]
+    external_stylesheets=[dbc.themes.ZEPHYR]
 )
 
 app.layout = dbc.Container([
